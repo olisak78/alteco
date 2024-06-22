@@ -1,0 +1,162 @@
+/* *************Login******************* */
+
+.loginform {
+  width: 20rem;
+  background-color: white;
+  border-radius: 5%;
+  border-style: solid;
+  box-shadow: 5px 5px 10px gray;
+  grid-column: 2 / 2;
+  grid-row: 2 / 2;
+  margin: 2rem;
+  justify-self: center;
+}
+
+.logincontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 10fr;
+}
+
+.alertcontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.bodycontainer {
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
+
+.cardtitle {
+  grid-row: 1 / 1;
+  justify-self: center;
+  align-self: center;
+  font-size: x-large;
+}
+
+.buttoncontainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.signupbuttoncontainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.loginsubmit {
+  grid-row: 1 / 1;
+  font-weight: bold;
+}
+
+.middle {
+  grid-row: 3 / 3;
+}
+
+.signupbutton {
+  grid-row: 1 / 1;
+  background-color: whitesmoke;
+  color: #0d6efd;
+  font-weight: bold;
+}
+.signupbutton:hover {
+  background-color: #daebf6;
+  color: #0d6efd;
+  transition: 0.5s;
+}
+
+body {
+  background-color: lightgray;
+}
+
+/* *************Signup******************* */
+
+.signupform {
+  width: 20rem;
+  background-color: white;
+  border-radius: 5%;
+  border-style: solid;
+  box-shadow: 5px 5px 10px gray;
+  grid-column: 2 / 2;
+  grid-row: 2 / 2;
+  margin: 2rem;
+  justify-self: center;
+}
+
+.signupcontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 12fr;
+}
+
+.signbuttoncontainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 1rem;
+}
+
+.signupmiddle {
+  grid-row: 2 / 2;
+  align-self: end;
+}
+
+.signin {
+  color: blue;
+  cursor: pointer;
+}
+
+.alert {
+  justify-self: center;
+  grid-column: 2/2;
+  position: absolute;
+}
+
+body {
+  background-color: lightgray;
+}
+
+/* ***********************Main**************************** */
+
+.maincontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
+}
+
+.maintable {
+  justify-self: center;
+  grid-column: 2/2;
+  grid-row: 2/2;
+}
+
+.maintitle {
+  justify-self: center;
+  align-self: center;
+  grid-column: 2/2;
+  grid-row: 1/1;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.mainspinner {
+  justify-self: center;
+  align-self: start;
+  grid-column: 2/2;
+  grid-row: 1/1;
+  font-size: 20rem;
+}
+
+.signout {
+  justify-self: start;
+  align-self: center;
+  grid-column: 3/3;
+  grid-row: 1/1;
+}
+
+.populate {
+  justify-self: end;
+  align-self: center;
+  grid-column: 1/1;
+  grid-row: 1/1;
+}
