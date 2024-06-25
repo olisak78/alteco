@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     await storeSessionData(
       userFound[0]._id.toString(),
       { fullName: userFound[0].fullName, email: userFound[0].email },
-      1200 // session data will expire in 20 min
+      1800 // session data will expire in 20 min
     );
   } catch (error) {
     console.log(`Error log: ${error}`);

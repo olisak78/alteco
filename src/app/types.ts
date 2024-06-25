@@ -22,3 +22,10 @@ export enum FilterType {
   Email,
   Status,
 }
+export type Employee = {
+  _id: string;
+  fullName: string;
+  email: string;
+  status: Status;
+  lastUpdated: string;
+};

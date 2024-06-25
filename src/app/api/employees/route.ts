@@ -1,6 +1,5 @@
 import config from '@/app/config/config';
 import { connectToDatabase } from '@/app/lib/mongodb';
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -20,7 +19,7 @@ export async function GET(request: NextRequest) {
           { $limit: +size },
           {
             $project: {
-              _id: 0,
+              _id: 1,
               fullName: 1,
               email: 1,
               lastUpdated: 1,

@@ -37,7 +37,7 @@ export default function Login() {
           // Authenticate the user, which means check his session in Redis
           sessionId: cookies.sessionId,
         })
-        .then(() => router.push('/main')) // If user is authenticated, then redirect to Main page
+        .then(() => router.push('/')) // If user is authenticated, then redirect to Main page
         .catch((error) => console.log(error));
     }
   }, []);
@@ -55,7 +55,7 @@ export default function Login() {
         setAlertText(`${response.data[0].fullName} logged in successfully!`);
         setStatus(response.data[0].status || 0);
         setCookie('sessionId', response.data[0]._id); // Store Session cookie
-        router.push('/main'); // Redirect to Main page
+        router.push('/'); // Redirect to Main page
       }
     } catch (error) {
       if (error instanceof AxiosError) {

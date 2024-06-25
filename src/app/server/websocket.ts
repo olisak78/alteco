@@ -10,14 +10,17 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', async (socket: any) => {
-  socket.emit('myevent', 'Hello Client');
-  io.emit('hello', 'Hello Client');
   console.log(`Connected! ${socket.id}`);
+
+  socket.on('statusUpdated', (data: any) => {
+    console.log(`Status Updated! ${data}`);
+    socket.broadcast.emit('updateEstablished', data);
+  });
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
 });
 
-httpServer.listen(5000, () => {
-  console.log(`The Websocket Server is listening on port 5000`);
+httpServer.listen(80, () => {
+  console.log(`The Websocket Server is listening on port 80`);
 });
