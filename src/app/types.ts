@@ -3,6 +3,11 @@ export enum Status {
   Vacation,
   Sickness,
 }
+export enum Variant {
+  success,
+  info,
+  warning,
+}
 
 export type User = {
   fullName: string;
@@ -11,3 +16,9 @@ export type User = {
   password: string;
   lastUpdated: Date;
 };
+
+export enum FilterType {
+  Name,
+  Email,
+  Status,
+}

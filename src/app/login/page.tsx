@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation';
 import Alert from 'react-bootstrap/esm/Alert';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import { useCookies } from 'react-cookie';
+import { useSetAtom } from 'jotai';
+import { atomStatus } from '../atoms';
 
 // Login page
 
@@ -18,6 +20,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false); // State of the Spinner
   const [alertType, setAlertType] = useState(''); // Type of the Alert (changes the background Color)
   const [alertText, setAlertText] = useState(''); // Text of the Alert
+  const setStatus = useSetAtom(atomStatus);
   const router = useRouter();
   const [loginData, setLoginData] = useState({
     // State of Login Form data
@@ -50,6 +53,7 @@ export default function Login() {
         setShow(true); // Show Alert for successfull Login
         setAlertType('success');
         setAlertText(`${response.data[0].fullName} logged in successfully!`);
+        setStatus(response.data[0].status || 0);
         setCookie('sessionId', response.data[0]._id); // Store Session cookie
         router.push('/main'); // Redirect to Main page
       }

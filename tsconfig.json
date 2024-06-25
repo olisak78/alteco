@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "ignoreDeprecations": "5.0",
+    "suppressImplicitAnyIndexErrors": true,
     "plugins": [
       {
         "name": "next"
