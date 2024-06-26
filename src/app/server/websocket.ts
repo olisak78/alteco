@@ -1,5 +1,3 @@
-import config from '../config/config';
-
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
@@ -26,8 +24,6 @@ io.on('connection', async (socket: any) => {
   });
 });
 
-httpServer.listen(config.socket.webSocketPort, () => {
-  console.log(
-    `The Websocket Server is listening on port ${config.socket.webSocketPort}`
-  );
+httpServer.listen(80, () => {
+  console.log(`The Websocket Server is listening on port 80`);
 });

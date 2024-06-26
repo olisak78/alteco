@@ -10,7 +10,15 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
   const client = await connectToDatabase(); // establish connection to MongoDB
   const socket = io(`http://localhost:${config.socket.webSocketPort}`); // establish Socket client connection
-
+  await socket.emit(
+    // emit to Socket Server the data: user id, status and last update
+    'statusUpdated',
+    JSON.stringify({
+      id: data.sessionId,
+      status: data.status,
+      lastUpdated: moment().format(),
+    })
+  );
   let userUpdated;
   const collection = client
     .db(config.db.mongoDBname)
@@ -23,15 +31,6 @@ export async function POST(request: NextRequest) {
       { $set: { status: data.status, lastUpdated: lastUpd } }
     );
     if (userUpdated) {
-      socket.emit(
-        // emit to Socket Server the data: user id, status and last update
-        'statusUpdated',
-        JSON.stringify({
-          id: data.sessionId,
-          status: data.status,
-          lastUpdated: moment().format(),
-        })
-      );
       return NextResponse.json(userUpdated, { status: 200 });
     } else return NextResponse.json('User Not Updated', { status: 400 });
   } catch (error) {
