@@ -2,7 +2,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-base-table/styles.css';
 import './forms.css';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import BaseTable, { Column, SortOrder } from 'react-base-table';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
@@ -17,29 +17,30 @@ import { useAtom } from 'jotai';
 import { atomFilterText, atomFilterType } from './atoms';
 import Alert from 'react-bootstrap/esm/Alert';
 import { io } from 'socket.io-client';
+import config from './config/config';
 
 const CHUNK_SIZE = 50;
 
 export default function Main() {
-  const [data, setData] = useState<Employee[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [cookies, , removeCookie] = useCookies(['sessionId']);
-  const [userName, setUsername] = useState('');
+  const [data, setData] = useState<Employee[]>([]); // Data for the Table
+  const [isLoading, setIsLoading] = useState(false); // Is Table loading
+  const [currentPage, setCurrentPage] = useState(0); // For infinite scrolling
+  const [cookies, , removeCookie] = useCookies(['sessionId']); // Cookies - for checking the SessionId Cookie
+  const [userName, setUsername] = useState(''); // Username of currently logged user
   const [filterType] = useAtom(atomFilterType);
   const [filterText] = useAtom(atomFilterText);
   const [sortBy, setSortBy] = useState<{ key: string; order: SortOrder }>({
     key: 'lastUpdated',
     order: 'desc',
   });
-  const [alertText, setAlertText] = useState(''); // Alert text
+  const [alertText, setAlertText] = useState(''); // Alert text - used for alerts from Socket Server
   const [show, setShow] = useState(false); // State of the Alert
-  const socket = io('http://localhost:80');
+  const socket = io(`http://localhost:${config.socket.webSocketPort}`);
   const router = useRouter();
 
   useEffect(() => {
     socket.on('updateEstablished', (message) => {
-      setShow(true);
+      // setShow(true);    // Uncomment this line if you wish to display alerts from Socket Server
       setAlertText(`${message}`);
     });
   }, []);
@@ -48,6 +49,7 @@ export default function Main() {
     if (alertText !== '') {
       const toUpdate = JSON.parse(alertText);
       setData(
+        // Updating the Table data after Socket server sends alert about some user's status change
         [...data].map((user) =>
           toUpdate.id && user._id === toUpdate.id
             ? {
@@ -76,10 +78,11 @@ export default function Main() {
   }, []);
 
   const handleLogout = async () => {
-    setUsername(''); // To show the big spinner while logout process is performed
+    setUsername(''); // Reset username to show the big spinner while logout process is performed
     try {
       await axios.post('/api/logout', {
         // call for logout endpoint
+
         sessionId: cookies.sessionId,
       });
 
@@ -93,10 +96,9 @@ export default function Main() {
   };
 
   useEffect(() => {
+    // Logic of infinite scrolling lazy loading table
     const fetchData = async () => {
       setIsLoading(true);
-
-      // Fetch data from your API or data source
       fetchNextData(currentPage, CHUNK_SIZE)
         .then((newData) => {
           setData([...data, ...newData]);
@@ -110,10 +112,10 @@ export default function Main() {
   // Function to fetch next data chunk
   const fetchNextData = async (page: number, size: number): Promise<any> => {
     const response = await fetch(`/api/employees?page=${page}&size=${size}`);
-
     return response.json();
   };
 
+  //   Table columns
   const columns = [
     {
       key: 'fullName',
@@ -157,6 +159,7 @@ export default function Main() {
   ];
 
   const onEndReached = () => {
+    // When scrolled down to end of table
     if (!isLoading) {
       setCurrentPage(currentPage + 1); // Load next chunk
     }

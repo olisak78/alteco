@@ -5,19 +5,12 @@ import { ObjectId } from 'mongodb';
 import moment from 'moment';
 import { io } from 'socket.io-client';
 
-// Endpoint 'api/state' receives new state, gets user Session ID from Redis and updates the user's state in MongoDB
+// Endpoint 'api/state' receives new state, gets user Session ID from Redis, updates the user's state in MongoDB and emits to Websocket Server
 export async function POST(request: NextRequest) {
   const data = await request.json();
   const client = await connectToDatabase(); // establish connection to MongoDB
-  const socket = io('http://localhost:80');
-  socket.emit(
-    'statusUpdated',
-    JSON.stringify({
-      id: data.sessionId,
-      status: data.status,
-      lastUpdated: moment().format(),
-    })
-  );
+  const socket = io(`http://localhost:${config.socket.webSocketPort}`); // establish Socket client connection
+
   let userUpdated;
   const collection = client
     .db(config.db.mongoDBname)
@@ -30,6 +23,15 @@ export async function POST(request: NextRequest) {
       { $set: { status: data.status, lastUpdated: lastUpd } }
     );
     if (userUpdated) {
+      socket.emit(
+        // emit to Socket Server the data: user id, status and last update
+        'statusUpdated',
+        JSON.stringify({
+          id: data.sessionId,
+          status: data.status,
+          lastUpdated: moment().format(),
+        })
+      );
       return NextResponse.json(userUpdated, { status: 200 });
     } else return NextResponse.json('User Not Updated', { status: 400 });
   } catch (error) {

@@ -13,6 +13,9 @@ interface Config {
     redisDBport: string;
     redisDBpassword: string;
   };
+  socket: {
+    webSocketPort: string;
+  };
 }
 
 const config: Config = {
@@ -23,6 +26,9 @@ const config: Config = {
     redisDBhost: process.env.REDISDB_HOST || '',
     redisDBport: process.env.REDISDB_PORT || '6379',
     redisDBpassword: process.env.REDISDB_PASSWORD || '',
+  },
+  socket: {
+    webSocketPort: process.env.WEBSOCKET_PORT || '80',
   },
 };
 

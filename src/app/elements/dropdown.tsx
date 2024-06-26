@@ -9,12 +9,10 @@ import { Status, Variant } from '../types';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
-// import { io } from 'socket.io-client';
 
 export default function StatusDropdown() {
   const [currentStatus, setCurrentStatus] = useAtom(atomStatus);
   const [cookies, setCookie, removeCookie] = useCookies(['sessionId']);
-  // const socket = io('http://localhost:5000');
   const router = useRouter();
 
   const handleStatusChange = async (st: string) => {
@@ -27,10 +25,6 @@ export default function StatusDropdown() {
           status: Status[st],
           sessionId: cookies.sessionId,
         });
-        // socket.emit(`statusupdated`, {
-        //   sessionId: cookies.sessionId,
-        //   status: Status[st],
-        // });
       } catch (error) {
         console.log(error);
       }
